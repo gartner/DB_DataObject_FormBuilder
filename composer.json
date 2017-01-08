@@ -21,6 +21,9 @@
             "DB": "./"
         }
     },
+    "replace": {
+        "pear-pear.php.net/DB_DataObject_FormBuilder" : "1.*"
+    },
     "description": "More info available on: http://pear.php.net/package/DB_DataObject_FormBuilder",
     "include-path": [
         "./"
