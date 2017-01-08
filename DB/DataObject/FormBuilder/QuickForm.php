@@ -108,7 +108,7 @@ class DB_DataObject_FormBuilder_QuickForm
      */
     function DB_DataObject_FormBuilder_QuickForm(&$fb)
     {
-        $this->_fb =& $fb;
+        $this->_fb = $fb;
     }
 
     /**
@@ -140,9 +140,9 @@ class DB_DataObject_FormBuilder_QuickForm
     {
         if (is_a($form, 'html_quickform') && !is_object($this->_form)) {
             if ($append) {
-                $this->_appendForm =& $form;
+                $this->_appendForm = $form;
             } else {
-                $this->_form =& $form;
+                $this->_form = $form;
             }
             return true;
         }
@@ -219,7 +219,7 @@ class DB_DataObject_FormBuilder_QuickForm
     function _createFormObject($formName, $method, $action, $target)
     {
         if (!is_a($this->_form, 'html_quickform')) {
-            $this->_form =& new HTML_QuickForm($formName, $method, $action, $target, null, true);
+            $this->_form = new HTML_QuickForm($formName, $method, $action, $target, null, true);
         }
     }
 
@@ -261,7 +261,7 @@ class DB_DataObject_FormBuilder_QuickForm
      */
     function &_createHiddenField($fieldName)
     {
-        $element =& HTML_QuickForm::createElement('hidden',
+        $element = HTML_QuickForm::createElement('hidden',
                                                   $this->_fb->getFieldName($fieldName));   
         $attr = $this->_getAttributes('hidden', $fieldName);
         $element->updateAttributes($attr);
@@ -286,13 +286,13 @@ class DB_DataObject_FormBuilder_QuickForm
         $attr = $this->_getAttributes('radio', $fieldName);
         foreach($options as $value => $display) {
             unset($radio);
-            $radio =& HTML_QuickForm::createElement('radio',
+            $radio = HTML_QuickForm::createElement('radio',
                                                     $this->_fb->getFieldName($fieldName),
                                                     null, 
                                                     $display,
                                                     $value);
             $radio->updateAttributes($attr);
-            $element[] =& $radio;
+            $element[] = $radio;
         }
         return $element;
     }
@@ -314,7 +314,7 @@ class DB_DataObject_FormBuilder_QuickForm
      */
     function &_createCheckbox($fieldName, $text = null, $value = null, $label = null, $checked = false, $freeze = false)
     {
-        $element =& HTML_QuickForm::createElement('checkbox',
+        $element = HTML_QuickForm::createElement('checkbox',
                                                   $this->_fb->getFieldName($fieldName),
                                                   $label,
                                                   $text);
@@ -345,7 +345,7 @@ class DB_DataObject_FormBuilder_QuickForm
      */
     function &_createTextField($fieldName)
     {
-        $element =& HTML_QuickForm::createElement($this->_getQFType('shorttext'),
+        $element = HTML_QuickForm::createElement($this->_getQFType('shorttext'),
                                                   $this->_fb->getFieldName($fieldName),
                                                   $this->_fb->getFieldLabel($fieldName));
         $attr = $this->_getAttributes('shorttext', $fieldName);
@@ -366,7 +366,7 @@ class DB_DataObject_FormBuilder_QuickForm
      */
     function &_createIntegerField($fieldName)
     {
-        $element =& HTML_QuickForm::createElement($this->_getQFType('integer'),
+        $element = HTML_QuickForm::createElement($this->_getQFType('integer'),
                                                   $this->_fb->getFieldName($fieldName),
                                                   $this->_fb->getFieldLabel($fieldName));
         $attr = $this->_getAttributes('integer', $fieldName);
@@ -387,7 +387,7 @@ class DB_DataObject_FormBuilder_QuickForm
      */
     function &_createTextArea($fieldName)
     {
-        $element =& HTML_QuickForm::createElement($this->_getQFType('longtext'),
+        $element = HTML_QuickForm::createElement($this->_getQFType('longtext'),
                                                   $this->_fb->getFieldName($fieldName),
                                                   $this->_fb->getFieldLabel($fieldName));
         $attr = $this->_getAttributes('longtext', $fieldName);
@@ -411,13 +411,13 @@ class DB_DataObject_FormBuilder_QuickForm
     function &_createSelectBox($fieldName, $options, $multiple = false)
     {
         if ($multiple) {
-            $element =& HTML_QuickForm::createElement($this->_getQFType('multiselect'),
+            $element = HTML_QuickForm::createElement($this->_getQFType('multiselect'),
                                                       $this->_fb->getFieldName($fieldName),
                                                       $this->_fb->getFieldLabel($fieldName),
                                                       $options,
                                                       array('multiple' => 'multiple'));
         } else {
-            $element =& HTML_QuickForm::createElement($this->_getQFType('select'),
+            $element = HTML_QuickForm::createElement($this->_getQFType('select'),
                                                       $this->_fb->getFieldName($fieldName),
                                                       $this->_fb->getFieldLabel($fieldName),
                                                       $options);
@@ -432,17 +432,17 @@ class DB_DataObject_FormBuilder_QuickForm
                     $element->updateAttributes(array('onchange' => 'db_do_fb_'.$this->_fb->getFieldName($fieldName).'__subForm_display(this)'));
                     $element->updateAttributes(array('id' => $element->getName()));
                     $this->_prepareForLinkNewValue($fieldName, $table);
-                    $subFormElement =& HTML_QuickForm::createElement($this->_getQFType('subForm'),
+                    $subFormElement = HTML_QuickForm::createElement($this->_getQFType('subForm'),
                                                                      $this->_fb->getFieldName($fieldName).'__subForm',
                                                                      '',
                                                                      $this->_linkNewValueForms[$fieldName]);
                     $subFormElement->setPreValidationCallback(array(&$subFormElement, 'preValidationCallback'));
                     $subFormElement->linkNewValueText = $this->linkNewValueText;
                     $subFormElement->selectName = $this->_fb->getFieldName($fieldName);
-                    $el =& $this->_form->addElement('hidden', $this->_fb->getFieldName($fieldName).'__subForm__displayed');
+                    $el = $this->_form->addElement('hidden', $this->_fb->getFieldName($fieldName).'__subForm__displayed');
                     $el->updateAttributes(array('id' => $el->getName()));
                     //echo $this->_fb->getFieldName($fieldName).'<br/>';
-                    $element =& HTML_QuickForm::createElement('group',
+                    $element = HTML_QuickForm::createElement('group',
                                                               $this->_fb->getFieldName($fieldName),
                                                               $this->_fb->getFieldLabel($fieldName),
                                                               array($element, $subFormElement),
@@ -469,7 +469,7 @@ class DB_DataObject_FormBuilder_QuickForm
      function &_createSubForm($fieldName, $label, &$subForm)
      {
         require_once('DB/DataObject/FormBuilder/QuickForm/SubForm.php');
-        $element =& HTML_QuickForm::createElement('subForm',
+        $element = HTML_QuickForm::createElement('subForm',
                                                   $fieldName,
                                                   $label,
                                                   $subForm);
@@ -528,11 +528,11 @@ class DB_DataObject_FormBuilder_QuickForm
             $this->_linkNewValueDOs[$elName]->fb_elementNamePrefix = $this->elementNamePrefix.$elName.'_'.$subTable.'__';
             $this->_linkNewValueDOs[$elName]->fb_elementNamePostfix = $this->elementNamePostfix;
             //$this->_linkNewValueDOs[$elName]->fb_linkNewValue = false;
-            $this->_linkNewValueFBs[$elName] =& DB_DataObject_FormBuilder::create($this->_linkNewValueDOs[$elName],
+            $this->_linkNewValueFBs[$elName] = DB_DataObject_FormBuilder::create($this->_linkNewValueDOs[$elName],
                                                                                   false,
                                                                                   'QuickForm',
                                                                                   get_class($this->_fb));
-            $this->_linkNewValueForms[$elName] =& $this->_linkNewValueFBs[$elName]->getForm();
+            $this->_linkNewValueForms[$elName] = $this->_linkNewValueFBs[$elName]->getForm();
             $this->_linkNewValueForms[$elName]->addElement('hidden',
                                                            ($this->elementNamePrefix.
                                                             '__DB_DataObject_FormBuilder_linkNewValue__'.
@@ -556,7 +556,7 @@ class DB_DataObject_FormBuilder_QuickForm
      */
     function &_createStaticField($fieldName, $text = null)
     {
-        $element =& HTML_QuickForm::createElement('static',
+        $element = HTML_QuickForm::createElement('static',
                                                   $this->_fb->getFieldName($fieldName),
                                                   $this->_fb->getFieldLabel($fieldName),
                                                   $text);
@@ -609,7 +609,7 @@ class DB_DataObject_FormBuilder_QuickForm
      */
     function _addSubmitButton($fieldName, $text)
     {
-        $element =& $this->_createSubmitButton($fieldName, $text);
+        $element = $this->_createSubmitButton($fieldName, $text);
         $this->_addElement($element);
     }
     
@@ -627,7 +627,7 @@ class DB_DataObject_FormBuilder_QuickForm
      */
     function &_createSubmitButton($fieldName, $text)
     {
-        $element =& HTML_QuickForm::createElement('submit', $fieldName, $text);
+        $element = HTML_QuickForm::createElement('submit', $fieldName, $text);
         $attr = $this->_getAttributes('submit', $fieldName);
         $element->updateAttributes($attr);
         return $element;
@@ -656,7 +656,7 @@ class DB_DataObject_FormBuilder_QuickForm
             $dateOptions['addEmptyOption'] = true;
             $dateOptions['emptyOptionText'] = $this->_fb->selectAddEmptyLabel;
         }
-        $element =& HTML_QuickForm::createElement($this->_getQFType('date'),
+        $element = HTML_QuickForm::createElement($this->_getQFType('date'),
                                                   $this->_fb->getFieldName($fieldName),
                                                   $this->_fb->getFieldLabel($fieldName),
                                                   $dateOptions);
@@ -690,7 +690,7 @@ class DB_DataObject_FormBuilder_QuickForm
             $timeOptions['addEmptyOption'] = true;
             $timeOptions['emptyOptionText'] = $this->_fb->selectAddEmptyLabel;
         }
-        $element =& HTML_QuickForm::createElement($this->_getQFType('time'),
+        $element = HTML_QuickForm::createElement($this->_getQFType('time'),
                                                   $this->_fb->getFieldName($fieldName),
                                                   $this->_fb->getFieldLabel($fieldName),
                                                   $timeOptions);
@@ -722,7 +722,7 @@ class DB_DataObject_FormBuilder_QuickForm
             $dateOptions['addEmptyOption'] = true;
             $dateOptions['emptyOptionText'] = $this->_fb->selectAddEmptyLabel;
         }
-        $element =& HTML_QuickForm::createElement($this->_getQFType('datetime'),
+        $element = HTML_QuickForm::createElement($this->_getQFType('datetime'),
                                                   $this->_fb->getFieldName($fieldName),
                                                   $this->_fb->getFieldLabel($fieldName),
                                                   $dateOptions);
@@ -743,7 +743,7 @@ class DB_DataObject_FormBuilder_QuickForm
      */
     function _addElementGrid($fieldName, $columnNames, $rowNames, &$rows) {
         require_once 'HTML/QuickForm/ElementGrid.php';
-        $element =& HTML_QuickForm::createElement($this->_getQFType('elementGrid'),
+        $element = HTML_QuickForm::createElement($this->_getQFType('elementGrid'),
                                                   $this->_fb->getFieldName($fieldName),
                                                   $this->_fb->getFieldLabel($fieldName));
         $element->setColumnNames($columnNames);
@@ -801,7 +801,7 @@ class DB_DataObject_FormBuilder_QuickForm
         foreach ($rules as $rule) {
             $realFieldName = $this->_fb->getFieldName($fieldName);
             $this->_fb->debug('Setting rule for '.$realFieldName.' '.serialize($rule));
-            $el =& $this->_form->getElement($realFieldName);
+            $el = $this->_form->getElement($realFieldName);
             if (is_a($el, 'HTML_QuickForm_Date')) {
                 $ruleFunction = 'addGroupRule';
             } else {
@@ -838,7 +838,7 @@ class DB_DataObject_FormBuilder_QuickForm
         foreach ($elementsToFreeze as $elementToFreeze) {
             $elementToFreeze = $this->_fb->getFieldName($elementToFreeze);
             if ($this->_form->elementExists($elementToFreeze)) {
-                $el =& $this->_form->getElement($elementToFreeze);
+                $el = $this->_form->getElement($elementToFreeze);
                 $el->freeze();
             }
         }   
@@ -984,7 +984,7 @@ function hideRecordListRows(name)
         } else {
             $js = '';
         }
-        $el =& $this->_form->getElement($this->_fb->getFieldName($name));
+        $el = $this->_form->getElement($this->_fb->getFieldName($name));
         $el->setLabel($el->getLabel().'<br/>
 <a class="hide_checkbox" href="javascript:hideRecordListRows(\''.htmlentities($this->_fb->getFieldName($name), ENT_QUOTES).'\');">
   <span id="'.htmlentities($this->_fb->getFieldName($name), ENT_QUOTES).'__showLink">Click</span>
